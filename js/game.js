@@ -1,24 +1,26 @@
-var game = {
-  onload: function() {
-    // init video
-    if (!me.video.init(640, 800, { wrapper: "screen", scale: "auto" })) {
-      alert("Your browser doesn't support HTML5 Canvas, nerd.");
-      return;
+var config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 0 }
     }
-
-    // INit Audio
-    me.audio.init("mp3,ogg");
-
-    // set and load resources
-    me.loader.preload(game.resources, this.loaded.bind(this));
   },
-
-  loaded: function() {
-    // set the 'play/ingame' screen object
-    this.playScreen = new game.PlayScreen();
-    me.state.set(me.state.PLAY, this.playScreen);
-
-    // start game
-    me.state.change(me.state.PLAY);
+  scene: {
+    preload: preload,
+    create: create
   }
 };
+
+var game = new Phaser.Game(config);
+
+function preload() {
+  this.load.image("player", "images/square.png");
+  this.load.image("enemy", "images/enemy.png");
+}
+
+function create() {
+  this.add.image(400, 300, "player");
+}
