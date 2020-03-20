@@ -1,6 +1,6 @@
 var config = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 1000,
   height: 600,
   physics: {
     default: "arcade",
@@ -30,8 +30,6 @@ let mouse;
 let worldBounds;
 
 let mouseTouchDown = false;
-let playerPos = { x: 400, y: 300 };
-
 let control = false;
 
 var game = new Phaser.Game(config);
@@ -49,9 +47,10 @@ function preload() {
   this.graphics.lineStyle(4, white);
   this.graphics.strokeCircle(400, 300, 50);
   texture = this.graphics.generateTexture("player");
+  player = this.physics.add.image(400, 300, "player");
   this.graphics.destroy();
   this.graphics = this.add.graphics();
-  player = this.physics.add.image(400, 300, "player");
+  
 
   // bullet sprite
   this.graphics = this.add.graphics();
@@ -111,14 +110,17 @@ function update() {
 
       enemy = this.physics.add.image(posX, posY, "enemy");
       enemy.setCircle(15, 35, 35);
+      
       enemyNum++;
       enemies.push(enemy);
 
-      this.physics.moveToObject(
+      this.physics.moveTo(
         enemy,
-        player,
+        player.x + 50,
+        player.y + 50,
         Math.round(Math.random() * 150) + 100
       );
+      
     }
     state = "PLAY";
   }
