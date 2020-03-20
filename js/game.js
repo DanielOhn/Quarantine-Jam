@@ -21,7 +21,6 @@ let state = "SPAWN";
 let player;
 let hp = 50;
 let bullet;
-let enemy;
 let enemyNum = 0;
 let enemies = [];
 
@@ -50,7 +49,6 @@ function preload() {
   player = this.physics.add.image(400, 300, "player");
   this.graphics.destroy();
   this.graphics = this.add.graphics();
-  
 
   // bullet sprite
   this.graphics = this.add.graphics();
@@ -83,8 +81,8 @@ function create() {
   input = this.input;
   mouse = input.mousePointer;
 
-  player.body.velocity.x = 0;
-  player.body.velocity.y = 0;
+  player.x = 400;
+  player.y = 300;
 
   worldBounds = this.physics.world.bounds;
 }
@@ -108,20 +106,15 @@ function update() {
         posY = 625;
       }
 
-      enemy = this.physics.add.image(posX, posY, "enemy");
+      var enemy = this.physics.add.image(posX, posY, "enemy");
       enemy.setCircle(15, 35, 35);
-      
+
+      this.physics.moveToObject(enemy, player, 450);
+
       enemyNum++;
       enemies.push(enemy);
-
-      this.physics.moveTo(
-        enemy,
-        player.x + 50,
-        player.y + 50,
-        Math.round(Math.random() * 150) + 100
-      );
-      
     }
+
     state = "PLAY";
   }
 
